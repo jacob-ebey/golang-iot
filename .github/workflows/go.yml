@@ -29,13 +29,8 @@ jobs:
       env:
         IOTHUB_SERVICE_CONNECTION_STRING: ${{secrets.IOTHUB_SERVICE_CONNECTION_STRING}}
         IOTHUB_DEVICE_CONNECTION_STRING: ${{secrets.IOTHUB_DEVICE_CONNECTION_STRING}}
-
-    - name: Godacov Report
-      uses: brpaz/godacov-action@v1.0.3
+  
+    - name: Run codacy-analysis-cli
+      uses: mrfyda/codacy-analysis-cli-action@master
       with:
-        # The path to the generated report file
-        reportPath: ./cp.out # default is coverage.out
-        # The identifier of the commit that is associated with the report
-        commitId: ${GITHUB_REF}
-        # The token to authenticate with Codacy API
-        codacyToken: ${{secrets.CODACY_TOKEN}}
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
