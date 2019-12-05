@@ -24,9 +24,12 @@ jobs:
             dep ensure
         fi
 
-    - name: Build
+    - name: GO Test
       run: bash test.sh
-    
+      env:
+        IOTHUB_SERVICE_CONNECTION_STRING: ${{secrets.IOTHUB_SERVICE_CONNECTION_STRING}}
+        IOTHUB_DEVICE_CONNECTION_STRING: ${{secrets.IOTHUB_DEVICE_CONNECTION_STRING}}
+
     - name: Godacov Report
       uses: brpaz/godacov-action@v1.0.3
       with:
