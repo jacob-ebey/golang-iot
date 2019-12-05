@@ -127,7 +127,7 @@ func TestAzureWriterSendsMessage(t *testing.T) {
 		})
 	}()
 
-	<-time.After(1 * time.Second)
+	<-time.After(10 * time.Second)
 	writer <- toSend
 
 	message := <-receive
