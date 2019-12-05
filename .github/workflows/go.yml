@@ -25,7 +25,7 @@ jobs:
         fi
 
     - name: Build
-      run: go build -v .
+      run: bash test.sh
     
     - name: Godacov Report
       uses: brpaz/godacov-action@v1.0.3
