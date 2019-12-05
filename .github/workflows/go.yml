@@ -38,4 +38,4 @@ jobs:
         # The identifier of the commit that is associated with the report
         commitId: ${GITHUB_REF}
         # The token to authenticate with Codacy API
-        codacyToken: ${CODACY_TOKEN}
+        codacyToken: ${{secrets.CODACY_TOKEN}}
