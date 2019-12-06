@@ -1,7 +1,6 @@
 package gateway
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
@@ -19,10 +18,10 @@ func (peripheral *PeripheralInstance) Serializer() core.MessageSerializer {
 
 type shitTheBedOnInitPeripheral struct{}
 
-var shitTheBedOnInitPeripheralError = fmt.Errorf("I shit the bed on init.")
+var errShitTheBedOnInitPeripheral = fmt.Errorf("shit the bed on init")
 
 func (*shitTheBedOnInitPeripheral) Connect() (receive <-chan core.Message, send chan core.Message, err error) {
-	return nil, nil, shitTheBedOnInitPeripheralError
+	return nil, nil, errShitTheBedOnInitPeripheral
 }
 
 func (*shitTheBedOnInitPeripheral) Serializer() core.MessageSerializer {
@@ -46,23 +45,9 @@ func TestRuntimeLogsPeripheralConnectError(t *testing.T) {
 		t.Fatal("The wrong number of errors were logged.")
 	}
 
-	if logger.LoggedErrors[0] != shitTheBedOnInitPeripheralError {
+	if logger.LoggedErrors[0] != errShitTheBedOnInitPeripheral {
 		t.Fatal("The wrong error was logged.")
 	}
-}
-
-type shitTheBedOnSerializeMessageSerailizer struct{}
-
-var shitTheBedOnSerializeMessageSerailizerError = fmt.Errorf("I shit the bed on serialize.")
-
-func (serializer *shitTheBedOnSerializeMessageSerailizer) SerialiseMessage(message core.Message) ([]byte, error) {
-	return nil, shitTheBedOnSerializeMessageSerailizerError
-}
-
-func (serializer *shitTheBedOnSerializeMessageSerailizer) DeserialiseMessage(data []byte) (core.Message, error) {
-	result := core.Message{}
-	err := json.Unmarshal(data, &result)
-	return result, err
 }
 
 func TestRuntimeForwardsPeripheralMessages(t *testing.T) {
