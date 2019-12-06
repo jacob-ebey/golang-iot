@@ -18,10 +18,10 @@ func (peripheral *PeripheralInstance) Serializer() core.MessageSerializer {
 
 type shitTheBedOnInitPeripheral struct{}
 
-var shitTheBedOnInitPeripheralError = fmt.Errorf("shit the bed on init")
+var errShitTheBedOnInitPeripheral = fmt.Errorf("shit the bed on init")
 
 func (*shitTheBedOnInitPeripheral) Connect() (receive <-chan core.Message, send chan core.Message, err error) {
-	return nil, nil, shitTheBedOnInitPeripheralError
+	return nil, nil, errShitTheBedOnInitPeripheral
 }
 
 func (*shitTheBedOnInitPeripheral) Serializer() core.MessageSerializer {
@@ -45,7 +45,7 @@ func TestRuntimeLogsPeripheralConnectError(t *testing.T) {
 		t.Fatal("The wrong number of errors were logged.")
 	}
 
-	if logger.LoggedErrors[0] != shitTheBedOnInitPeripheralError {
+	if logger.LoggedErrors[0] != errShitTheBedOnInitPeripheral {
 		t.Fatal("The wrong error was logged.")
 	}
 }
