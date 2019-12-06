@@ -26,12 +26,9 @@ jobs: # basic units of work in a run
 
           # store the results of our tests in the $TEST_RESULTS directory
           command: |
-            PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
-            gotestsum --junitfile gotestsum-report.xml -- $PACKAGE_NAMES -cover -coverprofile=coverage.txt -covermode=atomic
-            go tool cover -html=coverage.txt -o coverage.html
-            mv gotestsum-report.xml ${TEST_RESULTS}
-            mv coverage.html /tmp/test-coverage
-        
+            go mod download
+            go test -race -coverprofile=coverage.txt -covermode=atomic
+            
       - store_artifacts:
           path: /tmp/test-coverage
           destination: test-coverage
