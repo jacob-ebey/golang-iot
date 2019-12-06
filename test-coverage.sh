@@ -1,2 +1,5 @@
-go test ./... -timeout 30s -coverprofile cp.out
-go tool cover -html=cp.out
+#!/usr/bin/env bash
+
+go test ./... -cover -coverprofile="coverage.txt" -covermode=atomic
+
+go tool cover -html=coverage.txt
