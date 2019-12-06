@@ -1,1 +1,1 @@
-go test ./... -timeout 60s -coverprofile cp.out
+go test ./... -timeout 120s -coverprofile cp.out
