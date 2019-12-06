@@ -24,7 +24,13 @@ jobs: # basic units of work in a run
           # store the results of our tests in the $TEST_RESULTS directory
           command: |
             PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
-            gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES
+            gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES -cover -coverprofile=c.out
+            go tool cover -html=c.out -o coverage.html
+            mv coverage.html /tmp/test-coverage
+        
+      - store_artifacts:
+          path: /tmp/test-coverage
+          destination: test-coverage
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
@@ -37,6 +43,11 @@ jobs: # basic units of work in a run
 
       - store_test_results: # upload test results for display in Test Summary
           path: /tmp/test-results
+      
+      - run:
+          name: Report code coverage
+          command: "bash <(curl -s https://codecov.io/bash)"
+
 workflows:
   version: 2
   build-workflow:
