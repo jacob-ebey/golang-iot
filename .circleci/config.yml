@@ -48,8 +48,9 @@ jobs: # basic units of work in a run
       - store_test_results: # upload test results for display in Test Summary
           path: /tmp/test-results
       
-      - codecov/upload:
-          file: /temp/test-results/coverage.html
+      - run:
+          name: Upload coverage
+          command: "bash <(curl -s https://codecov.io/bash)"
 
 workflows:
   version: 2
