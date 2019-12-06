@@ -112,7 +112,7 @@ func TestAzureWriterSendsMessage(t *testing.T) {
 	receive := make(chan core.Message)
 	serializer := &core.JsonSerializer{}
 	go func() {
-		service.SubscribeEvents(context.Background(), func(msg *iotservice.Event) error {
+		if err := service.SubscribeEvents(context.Background(), func(msg *iotservice.Event) error {
 			if msg.CorrelationID != correlationID {
 				return nil
 			}
@@ -128,7 +128,9 @@ func TestAzureWriterSendsMessage(t *testing.T) {
 			receive <- message
 
 			return nil
-		})
+		}); err != nil {
+			t.Fatal(err)
+		}
 	}()
 
 	<-time.After(10 * time.Second)
