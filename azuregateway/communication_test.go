@@ -21,7 +21,9 @@ import (
 // TODO: Test fail cases for serialize, send, subscribe, deserialize
 
 func TestAzureReaderReceivesMessage(t *testing.T) {
-	godotenv.Load()
+	if err := godotenv.Load(); err != nil {
+		t.Log(err)
+	}
 
 	client, err := iotdevice.NewFromConnectionString(
 		iotmqtt.New(), os.Getenv("IOTHUB_DEVICE_CONNECTION_STRING"),
@@ -70,7 +72,9 @@ func TestAzureReaderReceivesMessage(t *testing.T) {
 }
 
 func TestAzureWriterSendsMessage(t *testing.T) {
-	godotenv.Load()
+	if err := godotenv.Load(); err != nil {
+		t.Log(err)
+	}
 
 	client, err := iotdevice.NewFromConnectionString(
 		iotmqtt.New(), os.Getenv("IOTHUB_DEVICE_CONNECTION_STRING"),
