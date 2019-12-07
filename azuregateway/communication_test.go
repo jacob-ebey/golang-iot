@@ -142,17 +142,16 @@ func TestAzureWriterForwardsErrors(t *testing.T) {
 	if err = client.Connect(ctx); err != nil {
 		t.Fatal(err)
 	}
-	client.Close()
+	if err := client.Close(); err != nil {
+		t.Fatal(err)
+	}
 
 	toSend := []byte{1, 2, 3, 4}
 
 	writer, errors := NewAzureWriter(ctx, client)
 	writer <- toSend
 
-	select {
-	case err := <-errors:
-		if err == nil {
-			t.Fatal("error was nil")
-		}
+	if err := <-errors; err == nil {
+		t.Fatal("error was nil")
 	}
 }
