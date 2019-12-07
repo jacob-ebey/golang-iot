@@ -6,7 +6,7 @@ import (
 	"github.com/amenzhinsky/iothub/iotdevice"
 )
 
-// Creates new payload and error channels for a given azure iothub connection.
+// NewAzureWriter creates new payload and error channels for a given azure iothub connection.
 func NewAzureWriter(ctx context.Context, client *iotdevice.Client, opts ...iotdevice.SendOption) (chan []byte, <-chan error) {
 	messages := make(chan []byte)
 	errors := make(chan error)
@@ -28,7 +28,7 @@ func NewAzureWriter(ctx context.Context, client *iotdevice.Client, opts ...iotde
 	return messages, errors
 }
 
-// Creates new payload and error channels for a given azure iothub connection.
+// NewAzureReader creates new payload and error channels for a given azure iothub connection.
 func NewAzureReader(ctx context.Context, client *iotdevice.Client) (<-chan []byte, <-chan error) {
 	messages := make(chan []byte)
 	errors := make(chan error)

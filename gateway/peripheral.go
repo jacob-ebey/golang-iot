@@ -5,23 +5,23 @@ import (
 	"fmt"
 )
 
-// Describes a peripheral device.
+// Peripheral describes a peripheral device.
 type Peripheral interface {
 	ID() string
 	Listen(ctx context.Context) (chan []byte, <-chan error)
 	Write(ctx context.Context, payload []byte) error
 }
 
-// A list of Peripheral devices that expose functionality.
+// PeripheralRuntime is a list of Peripheral devices that expose functionality.
 type PeripheralRuntime []Peripheral
 
-// A message received from a peripheral device.
+// PeripheralMessage describes a message received from a peripheral device.
 type PeripheralMessage struct {
 	PeripheralID string
 	Payload      []byte
 }
 
-// An error that occured when interacting with a Peripheral.
+// PeripheralError is an error that occured when interacting with a Peripheral.
 type PeripheralError struct {
 	PeripheralID    string
 	PeripheralError error
