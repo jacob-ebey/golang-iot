@@ -28,7 +28,7 @@ func (peripheral *testPeripheral) ID() string {
 	return peripheral.id
 }
 
-func (peripheral *testPeripheral) Listen(ctx context.Context) (chan []byte, chan error) {
+func (peripheral *testPeripheral) Listen(ctx context.Context) (chan []byte, <-chan error) {
 	messages := make(chan []byte)
 	errors := make(chan error)
 

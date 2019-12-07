@@ -5,19 +5,23 @@ import (
 	"fmt"
 )
 
+// Describes a peripheral device.
 type Peripheral interface {
 	ID() string
-	Listen(ctx context.Context) (chan []byte, chan error)
+	Listen(ctx context.Context) (chan []byte, <-chan error)
 	Write(ctx context.Context, payload []byte) error
 }
 
+// A list of Peripheral devices that expose functionality.
 type PeripheralRuntime []Peripheral
 
+// A message received from a peripheral device.
 type PeripheralMessage struct {
 	PeripheralID string
 	Payload      []byte
 }
 
+// An error that occured when interacting with a Peripheral.
 type PeripheralError struct {
 	PeripheralID    string
 	PeripheralError error
@@ -27,7 +31,8 @@ func (err *PeripheralError) Error() string {
 	return fmt.Sprintf("[PeripheralError] %s", err.PeripheralError.Error())
 }
 
-func (peripherals PeripheralRuntime) Listen(ctx context.Context) (chan PeripheralMessage, chan error) {
+// Listen to all the peripheral devices via a single channel.
+func (peripherals PeripheralRuntime) Listen(ctx context.Context) (<-chan PeripheralMessage, <-chan error) {
 	resultMessages := make(chan PeripheralMessage)
 	resultErrors := make(chan error)
 
